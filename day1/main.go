@@ -20,12 +20,24 @@ func main() {
 		os.Exit(1)
 	}
 
-	result := 0
+	fuel := 0
+	total := 0
 	for _, m := range masses {
-		result += calcFuel(m)
+		f := calcFuel(m)
+		fuel += f
+		total += f
+
+		for {
+			f = calcFuel(f)
+			if f <= 0 {
+				break
+			}
+			total += f
+		}
 	}
 
-	fmt.Println(result)
+	fmt.Printf("fuel for modules: %d\n", fuel)
+	fmt.Printf("total fuel: %d\n", total)
 }
 
 func loadMasses(path string) ([]int, error) {
